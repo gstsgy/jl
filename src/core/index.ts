@@ -20,8 +20,6 @@ export default function start(app:HTMLElement,nodes:NodeM[]){
     })
    
     typewriter.start();
-   
-    
 }
 
 

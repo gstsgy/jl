@@ -1,6 +1,6 @@
 //import Typewriter from 'typewriter-effect';
 
-import Typewriter from 'typewriter-effect/dist/core';
+//import Typewriter from 'typewriter-effect/dist/core';
 import  init from './core/index';
 import  {data} from './data/出师表';
 
