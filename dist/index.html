@@ -128,40 +128,37 @@
             font-size: 14px;
         }
         
-        /* 打印专用样式 */
-    @media print {
-        body {
-            background: white !important;
-            padding: 0 !important;
-            margin: 0 !important;
+        @media print {
+            body {
+                background: white !important;
+                padding: 0 !important;
+            }
+            
+            .resume-pages {
+                gap: 0;
+            }
+            
+            .resume-page {
+                box-shadow: none;
+                border-radius: 0;
+                page-break-after: always;
+                padding: 20mm;
+            }
+            
+            .typewriter-cursor {
+                display: none !important;
+            }
+            
+            .controls {
+                display: none;
+            }
+            
+            .page-indicator {
+                display: none;
+            }
         }
-        
-        .resume-page {
-            height: 1123px; /* 标准A4高度 */
-            width: 794px; /* 标准A4宽度 */
-            margin: 0 auto;
-            padding: 15mm !important;
-            box-shadow: none !important;
-            border: none !important;
-            page-break-after: always;
-            page-break-inside: avoid;
-            overflow: hidden;
-        }
-        
-        /* 确保第二页后不分页 */
-        .resume-page:last-child {
-            page-break-after: auto;
-        }
-        
-        .controls, .page-indicator {
-            display: none !important;
-        }
-        
-        .typewriter-cursor {
-            display: none !important;
-        }
-    }
     </style>
+  <script type="module" crossorigin src="/assets/index-BS6ED3vz.js"></script>
 </head>
 <body>
     <div class="resume-pages">
@@ -178,6 +175,5 @@
         <button id="print-btn" class="print-btn">打印简历</button>
     </div>
 
-    <script type="module" src="./src/main.ts"></script>
 </body>
 </html>
