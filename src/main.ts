@@ -28,7 +28,7 @@ const page1Data = [
     {
         type: 'list',
         content: [
-            '前端技术: Angualr, Vue, TypeScript, Vite, HTML5/CSS3',
+            '前端技术: Node.js,Angualr, Vue, 微信小程序, Vite, flutter',
             '后端技术: Java, Python, c#, RESTful API设计',
             '数据库: Mysql, Oracle, sqlserver, 数据库优化',
             'DevOps: Docker, jenkins, 阿里/腾讯云服务, CI/CD流水线',
