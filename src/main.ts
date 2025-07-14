@@ -6,7 +6,7 @@ import { resumeData } from './resume-data';
 const page1Data = [
     {
         type: 'title',
-        content: '张三 | 全栈工程师',
+        content: '古月 | 全栈工程师',
         style: {
             color: '#2c3e50',
             marginBottom: '20px'
