@@ -31,6 +31,7 @@ const page1Data = [
             '前端技术: Node.js,Angualr, Vue, 微信小程序, Vite, flutter',
             '后端技术: Java, Python, c#, RESTful API设计',
             '数据库: Mysql, Oracle, sqlserver, 数据库优化',
+            '操作系统: Windows, centos, debian, freebsd',
             'DevOps: Docker, jenkins, 阿里/腾讯云服务, CI/CD流水线',
             '其他: Git版本控制, 敏捷开发, 单元测试/集成测试'
         ],
