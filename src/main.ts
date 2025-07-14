@@ -6,7 +6,7 @@ import { resumeData } from './resume-data';
 const page1Data = [
     {
         type: 'title',
-        content: '张三 | 高级全栈工程师',
+        content: '张三 | 全栈工程师',
         style: {
             color: '#2c3e50',
             marginBottom: '20px'
@@ -14,7 +14,7 @@ const page1Data = [
     },
     {
         type: 'text',
-        content: '5年以上全栈开发经验 | 技术博客作者 | 开源贡献者',
+        content: '5年以上开发经验 | 技术博客作者 | 开源贡献者',
         style: {
             fontStyle: 'italic',
             marginBottom: '30px'
@@ -28,10 +28,10 @@ const page1Data = [
     {
         type: 'list',
         content: [
-            '前端技术: React, Vue, TypeScript, Webpack, HTML5/CSS3',
-            '后端技术: Node.js, Python, Django, RESTful API设计',
-            '数据库: MongoDB, PostgreSQL, Redis, 数据库优化',
-            'DevOps: Docker, Kubernetes, AWS云服务, CI/CD流水线',
+            '前端技术: Angualr, Vue, TypeScript, Vite, HTML5/CSS3',
+            '后端技术: Java, Python, c#, RESTful API设计',
+            '数据库: Mysql, Oracle, sqlserver, 数据库优化',
+            'DevOps: Docker, jenkins, 阿里/腾讯云服务, CI/CD流水线',
             '其他: Git版本控制, 敏捷开发, 单元测试/集成测试'
         ],
         style: {
