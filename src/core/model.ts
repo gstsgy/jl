@@ -1,8 +1,8 @@
-interface NodeM{
-    value:string|null,
-    stp:number,
-    br:boolean,
-    callFunction?:Function
+interface NodeM {
+    value: string | null;
+    stp: number;
+    br?: boolean;
+    callFunction?: Function;
 }
 
-export type {NodeM};
+export type { NodeM };

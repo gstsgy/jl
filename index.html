@@ -5,6 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>张三 - 个人简历</title>
     <style>
+        /* 单页居中显示 */
+        .single-page-center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* 两页并排显示 */
+        .two-page-layout {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 20px;
+        }
+
+        .resume-single-page {
+            /* 单页时的特殊样式 */
+            max-width: 800px;
+            width: 100%;
+        }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
@@ -174,7 +198,7 @@
             <div class="page-indicator">第2页</div>
         </div>
     </div>
-    
+
     <div class="controls">
         <!-- <button id="skip-btn" class="skip-btn">跳过动画</button> -->
         <button id="print-btn" class="print-btn">打印简历</button>

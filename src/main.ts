@@ -1,8 +1,7 @@
-import Typewriter from 'typewriter-effect/dist/core';
 import { resumeData } from './resume-data';
+import start from './core/index';
+import { NodeM } from './core/model';
 
-
-// 简历数据 - 第一页
 const page1Data = [
     {
         type: 'title',
@@ -141,172 +140,256 @@ const page2Data = [
     }
 ];
 
-// 获取DOM元素
-const page1 = document.getElementById('page1')!;
-const page2 = document.getElementById('page2')!;
-const skipBtn = document.getElementById('skip-btn')!;
-const printBtn = document.getElementById('print-btn')!;
+class ResumeApp {
+    private page1: HTMLElement;
+    private page2: HTMLElement;
+    private skipBtn: HTMLElement;
+    private printBtn: HTMLElement;
+    private isTypingComplete = false;
+    private currentPage = 1;
+    private typewriter1: any;
+    private typewriter2: any;
 
-let typewriter1: Typewriter;
-let typewriter2: Typewriter;
-let isTypingComplete = false;
+    constructor() {
+        this.page1 = document.getElementById('page1')!;
+        this.page2 = document.getElementById('page2')!;
+        this.skipBtn = document.getElementById('skip-btn')!;
+        this.printBtn = document.getElementById('print-btn')!;
 
-// 初始化应用
-function initApp() {
-    renderResume();
-    setupEventListeners();
-}
-
-// 渲染简历
-function renderResume() {
-    // 清空内容
-    page1.innerHTML = '<div class="page-indicator">第1页</div>';
-    page2.innerHTML = '<div class="page-indicator">第2页</div>';
-    
-    // 第一页打字机效果
-    typewriter1 = new Typewriter(page1, {
-        delay: 30,
-        cursor: '▌',
-        autoStart: true,
-        wrapperClassName: 'typewriter-wrapper',
-        cursorClassName: 'typewriter-cursor'
-    });
-    
-    // 第二页打字机效果
-    typewriter2 = new Typewriter(page2, {
-        delay: 30,
-        cursor: '▌',
-        autoStart: false,
-        wrapperClassName: 'typewriter-wrapper',
-        cursorClassName: 'typewriter-cursor'
-    });
-    
-    // 添加第一页内容
-    page1Data.forEach(item => {
-        addResumeItem(typewriter1, item);
-    });
-    
-    // 第一页完成后开始第二页
-    typewriter1.callFunction(() => {
-        typewriter2.start();
-    }).start();
-    
-    // 添加第二页内容
-    page2Data.forEach(item => {
-        addResumeItem(typewriter2, item);
-    });
-    
-    // 全部完成回调
-    typewriter2.callFunction(() => {
-        isTypingComplete = true;
-    });
-}
-
-// 添加简历项
-function addResumeItem(tw: Typewriter, item: any) {
-    const styleStr = item.style ? cssStyleToString(item.style) : '';
-    
-    switch (item.type) {
-        case 'title':
-            tw.typeString(`<h2 style="${styleStr}">${item.content}</h2>`);
-            break;
-        case 'text':
-            tw.typeString(`<p style="${styleStr}">${item.content}</p>`);
-            break;
-        case 'list':
-            tw.typeString(`<ul style="${styleStr}">`);
-            item.content.forEach((li: string) => {
-                tw.typeString(`<li>${li}</li>`);
-            });
-            tw.typeString('</ul>');
-            break;
+        this.initApp();
     }
-    
-    if (item.pauseAfter) {
-        tw.pauseFor(item.pauseAfter);
+
+    private initApp(): void {
+        // 初始设置单页居中布局
+        this.setSinglePageLayout();
+        this.page2.style.display = 'none';
+        this.showPage(1);
+        this.setupEventListeners();
     }
-}
 
-// CSS样式对象转字符串
-function cssStyleToString(style: any): string {
-    return Object.entries(style)
-        .map(([key, value]) => `${key.replace(/[A-Z]/g, m => '-' + m.toLowerCase())}: ${value};`)
-        .join(' ');
-}
+    private setSinglePageLayout(): void {
+        // 设置单页居中显示
+        document.body.classList.remove('two-page-layout');
+        document.body.classList.add('single-page-center');
+        this.page1.classList.add('resume-single-page');
+    }
 
-// 设置事件监听
-function setupEventListeners() {
-    skipBtn.addEventListener('click', () => {
-        if (!isTypingComplete) {
-            if (typewriter1) {
-                typewriter1.stop();
-                const cursor1 = page1.querySelector('.typewriter-cursor');
-                if (cursor1) cursor1.remove();
-            }
-            if (typewriter2) {
-                typewriter2.stop();
-                const cursor2 = page2.querySelector('.typewriter-cursor');
-                if (cursor2) cursor2.remove();
-                typewriter2.start(); // 确保第二页内容显示
-            }
-            isTypingComplete = true;
+    private setTwoPageLayout(): void {
+        // 设置两页并排显示
+        document.body.classList.remove('single-page-center');
+        document.body.classList.add('two-page-layout');
+        this.page1.classList.remove('resume-single-page');
+    }
+
+    private showPage(pageNumber: number): void {
+        this.currentPage = pageNumber;
+
+        if (pageNumber === 1) {
+            this.renderPage1();
+        } else if (pageNumber === 2) {
+            this.renderPage2();
         }
-    });
-    
-    // 在setupEventListeners函数中修改打印按钮事件
-printBtn.addEventListener('click', () => {
-    // 先确保所有内容都显示
-    if (!isTypingComplete) {
-        if (typewriter1) typewriter1.stop();
-        if (typewriter2) {
-            typewriter2.stop();
-            typewriter2.start();
-        }
-        document.querySelectorAll('.typewriter-cursor').forEach(el => el.remove());
-        isTypingComplete = true;
     }
-    
-    // 添加打印前延迟确保DOM更新
-    setTimeout(() => {
-        const printWindow = window.open('', '_blank');
-        if (printWindow) {
-            printWindow.document.write(`
-                <!DOCTYPE html>
-                <html>
-                <head>
-                    <title>张三的简历</title>
-                    <style>
-                        body { margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
-                        .resume-page {
-                            width: 210mm;
-                            height: 297mm;
-                            padding: 15mm;
-                            page-break-after: always;
-                        }
-                        .resume-page:last-child { page-break-after: auto; }
-                        h1, h2 { color: #2c3e50; }
-                        h1 { border-bottom: 2px solid #3498db; }
-                        h2 { border-bottom: 1px solid #eee; }
-                        ul { margin-left: 30px; }
-                    </style>
-                </head>
-                <body>
-                    ${page1.innerHTML.replace(/class="typewriter-cursor"/g, '')}
-                    ${page2.innerHTML.replace(/class="typewriter-cursor"/g, '')}
-                </body>
-                </html>
-            `);
-            printWindow.document.close();
+
+    private renderPage1(): void {
+        // 清空内容
+        this.page1.innerHTML = '<div class="page-indicator">第1页</div>';
+
+        // 创建节点数据
+        const page1Nodes: NodeM[] = this.createNodesFromData(page1Data);
+
+        // 启动第一页打字机效果
+        this.typewriter1 = start(this.page1, page1Nodes, {
+            delay: 30,
+            cursor: '▌'
+        });
+
+        // 第一页完成后自动显示第二页
+        this.typewriter1.callFunction(() => {
             setTimeout(() => {
-                printWindow.print();
-                printWindow.close();
-            }, 200);
-        } else {
-            window.print();
+                this.switchToTwoPageLayout();
+                this.showPage(2);
+            }, 1000); // 延迟1秒后显示第二页
+        });
+    }
+
+    private switchToTwoPageLayout(): void {
+        // 切换到两页布局
+        this.setTwoPageLayout();
+        // 显示第二页
+        this.page2.style.display = 'block';
+    }
+
+    private renderPage2(): void {
+        // 清空第二页内容
+        this.page2.innerHTML = '<div class="page-indicator">第2页</div>';
+
+        // 创建节点数据
+        const page2Nodes: NodeM[] = this.createNodesFromData(page2Data);
+
+        // 启动第二页打字机效果
+        this.typewriter2 = start(this.page2, page2Nodes, {
+            delay: 30,
+            cursor: '▌'
+        });
+
+        // 完成回调
+        this.typewriter2.callFunction(() => {
+            this.isTypingComplete = true;
+        });
+    }
+
+    private createNodesFromData(data: any[]): NodeM[] {
+        const nodes: NodeM[] = [];
+
+        data.forEach(item => {
+            const styleStr = item.style ? this.cssStyleToString(item.style) : '';
+
+            let content = '';
+            switch (item.type) {
+                case 'title':
+                    content = `<h2 style="${styleStr}">${item.content}</h2>`;
+                    break;
+                case 'text':
+                    content = `<p style="${styleStr}">${item.content}</p>`;
+                    break;
+                case 'list':
+                    content = `<ul style="${styleStr}">`;
+                    (item.content as string[]).forEach(li => {
+                        content += `<li>${li}</li>`;
+                    });
+                    content += '</ul>';
+                    break;
+            }
+
+            nodes.push({
+                value: content,
+                stp: item.pauseAfter || 0,
+                br: false
+            });
+        });
+
+        return nodes;
+    }
+
+    // CSS样式对象转字符串
+    private cssStyleToString(style: any): string {
+        // @ts-ignore
+        return Object.entries(style)
+            .map(([key, value]) => `${key.replace(/[A-Z]/g, m => '-' + m.toLowerCase())}: ${value};`)
+            .join(' ');
+    }
+
+    private setupEventListeners(): void {
+        this.skipBtn.addEventListener('click', () => this.handleSkip());
+        this.printBtn.addEventListener('click', () => this.handlePrint());
+    }
+
+    private handleSkip(): void {
+        if (!this.isTypingComplete) {
+            // 如果还在第一页，切换到两页布局
+            if (this.currentPage === 1) {
+                this.switchToTwoPageLayout();
+            }
+
+            // 停止当前打字机效果
+            if (this.currentPage === 1 && this.typewriter1) {
+                this.typewriter1.stop();
+            } else if (this.currentPage === 2 && this.typewriter2) {
+                this.typewriter2.stop();
+            }
+
+            // 移除光标
+            document.querySelectorAll('.typewriter-cursor').forEach(el => el.remove());
+
+            // 直接显示所有内容
+            if (this.currentPage === 1) {
+                this.showFullPage1();
+                setTimeout(() => {
+                    this.showPage(2);
+                    this.showFullPage2();
+                }, 500);
+            } else {
+                this.showFullPage2();
+            }
+
+            this.isTypingComplete = true;
         }
-    }, 100);
-});
+    }
+
+    private showFullPage1(): void {
+        this.page1.innerHTML = '<div class="page-indicator">第1页</div>';
+        const page1Nodes: NodeM[] = this.createNodesFromData(page1Data);
+        page1Nodes.forEach(node => {
+            if (node.value) {
+                this.page1.innerHTML += node.value;
+            }
+        });
+    }
+
+    private showFullPage2(): void {
+        this.page2.innerHTML = '<div class="page-indicator">第2页</div>';
+        const page2Nodes: NodeM[] = this.createNodesFromData(page2Data);
+        page2Nodes.forEach(node => {
+            if (node.value) {
+                this.page2.innerHTML += node.value;
+            }
+        });
+    }
+
+    private handlePrint(): void {
+        // 先确保所有内容都显示
+        if (!this.isTypingComplete) {
+            this.switchToTwoPageLayout();
+            this.showFullPage1();
+            this.showFullPage2();
+            document.querySelectorAll('.typewriter-cursor').forEach(el => el.remove());
+            this.isTypingComplete = true;
+        }
+
+        // 添加打印前延迟确保DOM更新
+        setTimeout(() => {
+            const printWindow = window.open('', '_blank');
+            if (printWindow) {
+                printWindow.document.write(`
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <title>古月的简历</title>
+            <style>
+              body { margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+              .resume-page {
+                width: 210mm;
+                height: 297mm;
+                padding: 15mm;
+                page-break-after: always;
+              }
+              .resume-page:last-child { page-break-after: auto; }
+              h1, h2 { color: #2c3e50; }
+              h1 { border-bottom: 2px solid #3498db; }
+              h2 { border-bottom: 1px solid #eee; }
+              ul { margin-left: 30px; }
+            </style>
+          </head>
+          <body>
+            ${this.page1.innerHTML.replace(/class="typewriter-cursor"/g, '')}
+            ${this.page2.innerHTML.replace(/class="typewriter-cursor"/g, '')}
+          </body>
+          </html>
+        `);
+                printWindow.document.close();
+                setTimeout(() => {
+                    printWindow.print();
+                    printWindow.close();
+                }, 200);
+            } else {
+                window.print();
+            }
+        }, 100);
+    }
 }
 
 // 启动应用
-document.addEventListener('DOMContentLoaded', initApp);
+document.addEventListener('DOMContentLoaded', () => {
+    new ResumeApp();
+});
