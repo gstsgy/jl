@@ -3,177 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>张三 - 个人简历</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background-color: #f5f5f5;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        
-        .resume-pages {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            max-width: 800px;
-            width: 100%;
-        }
-        
-        .resume-page {
-            background: white;
-            padding: 40px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            min-height: 1123px; /* A4纸高度 */
-            position: relative;
-            overflow: hidden;
-            page-break-after: always;
-        }
-        
-        .typewriter-cursor {
-            display: inline-block;
-            width: 10px;
-            height: 1em;
-            background-color: #3498db;
-            vertical-align: middle;
-            margin-left: 2px;
-            animation: blink 1s step-end infinite;
-        }
-        
-        @keyframes blink {
-            from, to { opacity: 1; }
-            50% { opacity: 0; }
-        }
-        
-        h1 {
-            color: #2c3e50;
-            border-bottom: 2px solid #3498db;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-        }
-        
-        h2 {
-            color: #2c3e50;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 5px;
-            margin: 20px 0 15px;
-        }
-        
-        ul {
-            margin: 15px 0 15px 30px;
-            padding-left: 0;
-        }
-        
-        li {
-            margin-bottom: 8px;
-        }
-        
-        p {
-            margin: 10px 0;
-        }
-        
-        .controls {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 20px;
-            position: sticky;
-            bottom: 20px;
-            z-index: 100;
-        }
-        
-        button {
-            padding: 10px 20px;
-            background: #3498db;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-family: inherit;
-            transition: all 0.2s;
-        }
-        
-        button:hover {
-            background: #2980b9;
-            transform: translateY(-2px);
-        }
-        
-        .skip-btn {
-            background: #e74c3c;
-        }
-        
-        .skip-btn:hover {
-            background: #c0392b;
-        }
-        
-        .print-btn {
-            background: #27ae60;
-        }
-        
-        .print-btn:hover {
-            background: #219653;
-        }
-        
-        .page-indicator {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-            color: #95a5a6;
-            font-size: 14px;
-        }
-        
-        @media print {
-            body {
-                background: white !important;
-                padding: 0 !important;
-            }
-            
-            .resume-pages {
-                gap: 0;
-            }
-            
-            .resume-page {
-                box-shadow: none;
-                border-radius: 0;
-                page-break-after: always;
-                padding: 20mm;
-            }
-            
-            .typewriter-cursor {
-                display: none !important;
-            }
-            
-            .controls {
-                display: none;
-            }
-            
-            .page-indicator {
-                display: none;
-            }
-        }
-    </style>
-  <script type="module" crossorigin src="/assets/index-BS6ED3vz.js"></script>
+    <title>胡军军 - 个人简历</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script type="module" crossorigin src="/assets/index-BrV03RhF.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-XxunDUfj.css">
 </head>
 <body>
-    <div class="resume-pages">
-        <div id="page1" class="resume-page">
-            <div class="page-indicator">第1页</div>
-        </div>
-        <div id="page2" class="resume-page">
-            <div class="page-indicator">第2页</div>
-        </div>
+    <div class="resume-pages" id="resume-pages" style="display: none;">
+        <!-- 页面将动态创建 -->
     </div>
-    
-    <div class="controls">
-        <button id="skip-btn" class="skip-btn">跳过动画</button>
-        <button id="print-btn" class="print-btn">打印简历</button>
+
+    <div class="controls" id="controls" style="display: none;">
+        <button id="print-btn" class="print-btn">
+            <i class="fas fa-print"></i> 打印简历
+        </button>
     </div>
 
 </body>
+
 </html>

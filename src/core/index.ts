@@ -1,13 +1,22 @@
-//import Typewriter from 'typewriter-effect';
 import Typewriter from 'typewriter-effect/dist/core';
 import { NodeM } from './model';
 
+/**
+ * 打字机配置选项
+ */
 export interface TypewriterOptions {
     loop?: boolean;
     delay?: number;
     cursor?: string;
 }
 
+/**
+ * 启动打字机效果
+ * @param app 容器元素
+ * @param nodes 节点数据数组
+ * @param options 配置选项
+ * @returns Typewriter 实例
+ */
 export default function start(
     app: HTMLElement,
     nodes: NodeM[],
