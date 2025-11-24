@@ -78,7 +78,7 @@ body {
     padding: 0;
     border-radius: 12px;
     box-shadow: var(--shadow-lg);
-    height: 1123px; /* A4纸高度 */
+    height: 1123px; /*!* A4纸高度 *!*/
     width: 794px; /* A4纸宽度 */
     overflow: hidden;
     page-break-after: always;
@@ -123,7 +123,7 @@ body {
 
 /* 简历Header */
 .resume-header {
-    height: 240px;
+    height: 90px;
     background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
     color: white;
     padding: 40px;

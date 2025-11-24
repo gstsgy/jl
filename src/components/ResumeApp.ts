@@ -55,6 +55,7 @@ export class ResumeApp {
         this.pageContents = this.pageElements.map(page => page.outerHTML);
         this.isTypingComplete = true;
         this.showControls();
+
     }
 
     /**
@@ -81,18 +82,17 @@ export class ResumeApp {
         const contentEl = currentPage.querySelector('.resume-content') as HTMLElement;
         const rightContainer = contentEl.querySelector('.resume-right-column') as HTMLElement;
         contentEl.insertBefore(leftColumnEl, rightContainer);
-
         rightSections.forEach(section => {
             rightContainer.appendChild(section);
-            if (currentPage.scrollHeight > APP_CONFIG.PAGE.HEIGHT) {
-                rightContainer.removeChild(section);
-                this.pageElements.push(currentPage);
-                pageIndex++;
-                currentPage = this.createPage(pageIndex, false);
-                staging.appendChild(currentPage);
-                const nextRight = currentPage.querySelector('.resume-right-column') as HTMLElement;
-                nextRight.appendChild(section);
-            }
+            // if (currentPage.scrollHeight > APP_CONFIG.PAGE.HEIGHT) {
+            //     rightContainer.removeChild(section);
+            //     this.pageElements.push(currentPage);
+            //     pageIndex++;
+            //     currentPage = this.createPage(pageIndex, false);
+            //     staging.appendChild(currentPage);
+            //     const nextRight = currentPage.querySelector('.resume-right-column') as HTMLElement;
+            //     nextRight.appendChild(section);
+            // }
         });
 
         this.pageElements.push(currentPage);
@@ -168,6 +168,7 @@ export class ResumeApp {
         const rightHtml = renderRightColumn(rightColumnData);
         const wrapper = this.htmlToElement(rightHtml);
         if (!wrapper) return [];
+        // @ts-ignore
         return Array.from(wrapper.children).map(child => child.cloneNode(true) as HTMLElement);
     }
 
