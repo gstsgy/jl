@@ -15,7 +15,7 @@ export const leftColumnData: LeftColumnData = {
         { icon: 'fa-map-pin', label: '城市', value: '上海' },
         { icon: 'fa-clock', label: '工作经验', value: '8年经验' },
         { icon: 'fa-phone', label: '电话', value: '153*****410' },
-        { icon: 'fa-envelope', label: '邮箱', value: '122759654@qq.com' },
+        { icon: 'fa-envelope', label: '邮箱', value: '122**54@qq.com' },
         { icon: 'fa-github', label: 'GitHub', value: 'github.com/gstsgy' }
     ],
     skills: [
@@ -122,7 +122,7 @@ export const rightColumnData: RightColumnData = {
  * Header数据
  */
 export const headerData = {
-    name: '胡军军',
+    name: '古月',
     motto: '用阳光乐观的心态去面对生活和工作，它们一样也会回报给你阳光',
     avatar: 'img/1024025.jpeg' // 头像留白
 };
