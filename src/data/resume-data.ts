@@ -124,6 +124,6 @@ export const rightColumnData: RightColumnData = {
 export const headerData = {
     name: '古月',
     motto: '用阳光乐观的心态去面对生活和工作，它们一样也会回报给你阳光',
-    avatar: 'img/1024025.jpeg' // 头像留白
+    avatar: './img/1024025.jpeg' // 头像留白
 };
 
