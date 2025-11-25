@@ -3,14 +3,14 @@
  */
 export const APP_CONFIG = {
     TYPEWRITER: {
-        DELAY: 30,
+        DELAY: 10,
         CURSOR: '▌',
     },
     PAGE: {
         SWITCH_DELAY: 1000,
         PRINT_DELAY: 100,
         PRINT_WINDOW_DELAY: 200,
-        PAGE_DRAW_DELAY: 800,
+        PAGE_DRAW_DELAY: 0,
         CONTENT_START_DELAY: 500,
         HEIGHT: 1123,
         WIDTH: 794,
