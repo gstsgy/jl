@@ -26,6 +26,9 @@ jobs:
         with:
           github_token: ${{ secrets.PAT_TOKEN }}
           publish_dir: ./dist
+          # 添加这两行
+          keep_files: false
+          force_orphan: true
           #external_repository: gstsgy/jl  # 如果是跨仓库部署
 
 
