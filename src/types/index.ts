@@ -16,10 +16,13 @@ export interface ResumeItem {
  */
 export interface LeftColumnData {
     basicInfo: InfoItem[];
-    skills: string[];
+    skills: skillItem[];
     selfEvaluation: string;
 }
-
+export interface skillItem{
+    info:string;
+    page:number;
+}
 /**
  * 信息项
  */
@@ -35,7 +38,7 @@ export interface InfoItem {
 export interface RightColumnData {
     education: EducationItem[];
     workExperience: WorkExperienceItem[];
-    projects: ProjectItem[];
+    projects: WorkExperienceItem[];
 }
 
 /**
@@ -52,21 +55,22 @@ export interface EducationItem {
  * 工作经历项
  */
 export interface WorkExperienceItem {
+    // page: number;
     period: string;
     position: string;
     company: string;
-    description: string[];
+    description: string;
 }
 
-/**
- * 项目经验项
- */
-export interface ProjectItem {
-    period: string;
-    name: string;
-    role: string;
-    description: string[];
-}
+// /**
+//  * 项目经验项
+//  */
+// export interface ProjectItem {
+//     period: string;
+//     name: string;
+//     role: string;
+//     description: string[];
+// }
 
 /**
  * 打字机配置选项

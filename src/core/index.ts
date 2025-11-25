@@ -24,7 +24,7 @@ export default function start(
 ): Typewriter {
     const defaultOptions: TypewriterOptions = {
         loop: false,
-        delay: 75,
+        delay: 30,
         cursor: '|'
     };
 
@@ -33,7 +33,9 @@ export default function start(
     const typewriter = new Typewriter(app, {
         loop: finalOptions.loop,
         delay: finalOptions.delay,
-        cursor: finalOptions.cursor
+        cursor: finalOptions.cursor,
+        cursorClassName: 'typewriter-cursor',
+        wrapperClassName: 'typewriter-wrapper'
     });
 
     nodes.forEach((node) => {

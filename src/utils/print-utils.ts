@@ -1,130 +1,46 @@
 /**
- * 打印样式模板
+ * 回退打印样式（当页面内无样式可复用时）
  */
 const PRINT_STYLE_TEMPLATE = `
   <style>
-    :root {
-      --primary-color: #2563eb;
-      --primary-dark: #1e40af;
-      --secondary-color: #10b981;
-      --text-primary: #1f2937;
-      --text-secondary: #6b7280;
-      --bg-primary: #ffffff;
-      --bg-secondary: #f9fafb;
-      --bg-accent: #f3f4f6;
-      --border-color: #e5e7eb;
-    }
-    body { 
-      margin: 0; 
-      padding: 0; 
-      font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif; 
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
       background: white;
+      color: #1f2937;
     }
     .resume-page {
       width: 210mm;
-      height: 297mm;
-      padding: 0;
+      min-height: 297mm;
+      margin: 0 auto;
+      padding: 40px;
+      box-sizing: border-box;
       page-break-after: always;
       background: white;
-      box-sizing: border-box;
     }
-    .resume-page:last-child { page-break-after: auto; }
-    .resume-header {
-      height: 240px;
-      background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
-      color: white;
-      padding: 40px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .resume-header h1 {
-      margin: 0 0 15px 0;
-      font-size: 42px;
-      font-weight: 700;
-      color: white;
-      border-bottom: none;
-    }
-    .resume-content {
-      padding: 30px 40px;
-      display: flex;
-      gap: 30px;
-      height: calc(100% - 240px);
-      box-sizing: border-box;
-    }
-    .resume-left-column {
-      width: calc(100% / 3.3);
-    }
-    .resume-right-column {
-      width: calc(100% * 2.3 / 3.3);
-    }
-    .section-card {
-      background: var(--bg-secondary);
-      border-radius: 8px;
-      padding: 20px;
-      border-left: 4px solid var(--primary-color);
-      margin-bottom: 20px;
-    }
-    .section-title {
-      color: var(--text-primary);
-      border-bottom: 2px solid var(--primary-color);
-      padding-bottom: 10px;
-      margin: 0 0 20px 0;
-      font-size: 20px;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .info-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 10px 0;
-      border-bottom: 1px solid var(--border-color);
-    }
-    .info-item:last-child {
-      border-bottom: none;
-    }
-    .skills-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-    .skills-list li {
-      padding: 8px 0;
-      padding-left: 20px;
-      position: relative;
-    }
-    .work-item, .project-item {
-      margin-bottom: 20px;
-      padding: 20px;
-      background: var(--bg-accent);
-      border-radius: 8px;
-      border-left: 4px solid var(--primary-color);
-    }
-    .project-item {
-      border-left-color: var(--secondary-color);
-    }
-    .work-description, .project-description {
-      list-style: none;
-      padding: 0;
-      margin: 10px 0 0 20px;
-    }
-    .work-description li, .project-description li {
-      padding: 6px 0;
-      padding-left: 20px;
-      position: relative;
-    }
-    .page-indicator {
-      position: absolute;
-      bottom: 20px;
-      right: 20px;
-      color: #9ca3af;
-      font-size: 12px;
+    .resume-page:last-child {
+      page-break-after: auto;
     }
   </style>
 `;
+
+/**
+ * 收集当前页面已加载的样式标签
+ */
+function collectRuntimeStyles(): string {
+    if (typeof document === 'undefined') {
+        return PRINT_STYLE_TEMPLATE;
+    }
+
+    const nodes = Array.from(document.querySelectorAll('link[rel="stylesheet"], style'));
+
+    if (!nodes.length) {
+        return PRINT_STYLE_TEMPLATE;
+    }
+
+    return nodes.map(node => node.outerHTML).join('\n');
+}
 
 /**
  * 打开打印窗口并打印内容
@@ -135,9 +51,10 @@ const PRINT_STYLE_TEMPLATE = `
 export function printResume(
     allContent: string,
     unused: string = '',
-    title: string = '胡军军的简历'
+    title: string = '古月的简历'
 ): void {
     const printWindow = window.open('', '_blank');
+    const styles = collectRuntimeStyles();
     
     if (printWindow) {
         // 移除光标元素
@@ -148,8 +65,7 @@ export function printResume(
           <html>
           <head>
             <title>${title}</title>
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-            ${PRINT_STYLE_TEMPLATE}
+            ${styles}
           </head>
           <body>
             ${cleanContent}
