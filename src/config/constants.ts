@@ -4,8 +4,8 @@
 export const APP_CONFIG = {
     TYPEWRITER: {
         ENABLED: true,
-        STEP_DELAY: 90,
-        BATCH_SIZE: 8,
+        STEP_DELAY: 200,
+        BATCH_SIZE: 1,
         CURSOR: '▌',
     },
     PAGE: {
