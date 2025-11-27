@@ -23,6 +23,7 @@ export interface skillItem{
     info:string;
     page:number;
 }
+
 /**
  * 信息项
  */
@@ -36,9 +37,17 @@ export interface InfoItem {
  * 右侧栏数据
  */
 export interface RightColumnData {
+    jobPre:jobPre;
     education: EducationItem[];
     workExperience: WorkExperienceItem[];
     projects: WorkExperienceItem[];
+}
+
+export interface jobPre{
+    title:string;
+    city:string;
+    salary:string;
+    time:string;
 }
 
 /**

@@ -1,4 +1,4 @@
-import { LeftColumnData, RightColumnData } from '../types';
+import {jobPre, LeftColumnData, RightColumnData} from '../types';
 
 /**
  * 左侧栏数据
@@ -39,6 +39,12 @@ export const leftColumnData: LeftColumnData = {
  * 右侧栏数据
  */
 export const rightColumnData: RightColumnData = {
+    jobPre:{
+        title:'全栈开发',
+        city:'江苏无锡',
+        salary:'薪资面议',
+        time:'随时到岗'
+    },
     education: [
         {
             period: '2013.9-2017.7',

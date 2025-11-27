@@ -218,7 +218,14 @@ body {
     flex-direction: column;
     gap: 25px;
 }
-
+.jobPre-card{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between; /* 或 space-around, space-evenly */
+}
+.jobPre-item i{
+    color: var(--primary-color);
+}
 /* 右侧栏 */
 .resume-right-column {
     background-color: var(--bg-right);

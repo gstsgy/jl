@@ -1,4 +1,4 @@
-import { LeftColumnData, RightColumnData, EducationItem, WorkExperienceItem, skillItem } from '../types';
+import { LeftColumnData, RightColumnData, EducationItem, WorkExperienceItem, skillItem, jobPre } from '../types';
 import { headerData } from '../data/resume-data';
 
 /**
@@ -106,6 +106,7 @@ function renderSelfEvaluation(text: string): string {
 export function renderRightColumn(data: RightColumnData): string {
     return `
         <div class="resume-right-column">
+            ${renderJobPre(data.jobPre)}
             ${renderEducation(data.education)}
             ${renderWorkExperience(data.workExperience)}
         </div>
@@ -119,6 +120,25 @@ export function renderRightColumn2(data: RightColumnData): string {
         <div class="resume-right-column">
             ${renderProjects(data.projects)}
         </div>
+    `;
+}
+
+/**
+ * 渲染教育背景
+ */
+function renderJobPre(jobPre: jobPre): string {
+
+    return `
+        <div class="section-card">
+            <h3 class="section-title"><i class="fas fa-briefcase"></i> 求职意向</h3>
+            <div class="jobPre-card">
+           <div class="jobPre-item"> <i class="fas fa-laptop-code"></i> ${jobPre.title}</div>
+           <div class="jobPre-item"><i class="fas fa-building"></i> ${jobPre.city}</div>
+           <div class="jobPre-item"><i class="fas fa-comment-dollar"></i> ${jobPre.salary}</div>
+           <div class="jobPre-item"> <i class="fas fa-running"></i> ${jobPre.time}</div>
+        </div>
+        </div>
+        
     `;
 }
 
