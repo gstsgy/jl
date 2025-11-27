@@ -78,7 +78,6 @@ body {
     display: block;
     background: var(--bg-primary);
     padding: 0;
-    border-radius: 12px;
     box-shadow: var(--shadow-lg);
     height: 1123px; /*!* A4纸高度 *!*/
     width: 794px; /* A4纸宽度 */
@@ -543,35 +542,35 @@ button:hover {
 }
 
 /* 打印专用样式 */
+/* 添加到你的 resume.css 或主样式文件中 */
 @media print {
+    @page {
+        margin: 0;
+        size: A4;
+    }
+
+    @page :left {
+        margin-left: 0;
+        @top-left { content: ''; }
+        @bottom-left { content: ''; }
+    }
+
+    @page :right {
+        margin-right: 0;
+        @top-right { content: ''; }
+        @bottom-right { content: ''; }
+    }
+
     body {
-        background: white !important;
-        padding: 0 !important;
-        margin: 0 !important;
+        margin: 0;
+        padding: 0;
+        -webkit-print-color-adjust: exact;
     }
-    
+
+    /* 确保你的简历内容正常显示 */
     .resume-page {
-        height: 1123px;
-        width: 794px;
-        margin: 0 auto;
-        padding: 0 !important;
-        box-shadow: none !important;
-        border: none !important;
-        page-break-after: always;
         page-break-inside: avoid;
-        overflow: hidden;
-    }
-    
-    .resume-page:last-child {
-        page-break-after: auto;
-    }
-    
-    .controls, .page-indicator {
-        display: none !important;
-    }
-    
-    .typewriter-cursor {
-        display: none !important;
+        break-inside: avoid;
     }
 }
 
