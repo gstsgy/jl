@@ -43,10 +43,105 @@ export class ResumeApp {
      * 初始化应用
      */
     private initApp(): void {
-        // 开始逐步构建界面
-        this.buildInterface();
-        this.setupEventListeners();
+        this.showBootAnimation().then(() => {
+            this.buildInterface();
+            this.setupEventListeners();
+        });
     }
+
+    /**
+     * 显示启动动画
+     */
+    private async showBootAnimation(): Promise<void> {
+        return new Promise((resolve) => {
+            // 创建启动遮罩层
+            const bootScreen = document.createElement('div');
+            bootScreen.className = 'boot-screen';
+            bootScreen.innerHTML = `
+                <div class="boot-terminal">
+                    <div class="boot-header">Resume OS v1.0</div>
+                    <div class="boot-output" id="bootOutput"></div>
+                    <div class="boot-cursor">$ <span class="boot-command"></span><span class="cursor">|</span></div>
+                </div>
+            `;
+
+            document.body.appendChild(bootScreen);
+
+            const output = bootScreen.querySelector('#bootOutput') as HTMLElement;
+            const command = bootScreen.querySelector('.boot-command') as HTMLElement;
+
+            const bootSequence = [
+                { text: 'Booting Resume System...', delay: 800 },
+                { text: 'Loading personal data...', delay: 600 },
+                { text: 'Initializing skills matrix...', delay: 500 },
+                { text: 'Mounting experience modules...', delay: 400 },
+                { text: 'Starting typewriter engine...', delay: 300 },
+                { text: 'READY.', delay: 200 }
+            ];
+
+            this.animateBootSequence(bootSequence, output, command, resolve, bootScreen);
+        });
+    }
+
+    /**
+     * 执行启动序列动画
+     */
+    private animateBootSequence(
+        sequence: Array<{ text: string; delay: number }>,
+        output: HTMLElement,
+        command: HTMLElement,
+        resolve: () => void,
+        bootScreen: HTMLElement
+    ): void {
+        let index = 0;
+
+        const typeText = (text: string, element: HTMLElement, callback: () => void) => {
+            let i = 0;
+            const typing = setInterval(() => {
+                if (i < text.length) {
+                    element.textContent += text[i];
+                    i++;
+                } else {
+                    clearInterval(typing);
+                    setTimeout(callback, 200);
+                }
+            }, 50);
+        };
+
+        const nextStep = () => {
+            if (index < sequence.length) {
+                const step = sequence[index];
+                const line = document.createElement('div');
+                output.appendChild(line);
+
+                typeText(step.text, line, () => {
+                    index++;
+                    setTimeout(nextStep, step.delay);
+                });
+            } else {
+                // 显示最后命令
+                typeText('./start_resume.sh', command, () => {
+                    setTimeout(() => {
+                        bootScreen.classList.add('boot-complete');
+                        setTimeout(() => {
+                            document.body.removeChild(bootScreen);
+                            resolve();
+                        }, 500);
+                    }, 800);
+                });
+            }
+        };
+
+        nextStep();
+    }
+    // /**
+    //  * 初始化应用
+    //  */
+    // private initApp(): void {
+    //     // 开始逐步构建界面
+    //     this.buildInterface();
+    //     this.setupEventListeners();
+    // }
 
     /**
      * 逐步构建界面

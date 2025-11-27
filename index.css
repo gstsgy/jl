@@ -574,3 +574,74 @@ button:hover {
         display: none !important;
     }
 }
+
+
+
+
+
+/* 启动动画样式 */
+.boot-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #1a1a1a;
+    color: #00ff00;
+    font-family: 'Courier New', monospace;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.5s ease;
+}
+
+.boot-screen.boot-complete {
+    opacity: 0;
+}
+
+.boot-terminal {
+    width: 80%;
+    max-width: 600px;
+    background: #000;
+    border: 1px solid #00ff00;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+}
+
+.boot-header {
+    border-bottom: 1px solid #00ff00;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+    color: #00ff00;
+    font-weight: bold;
+}
+
+.boot-output {
+    margin-bottom: 15px;
+    min-height: 200px;
+}
+
+.boot-output div {
+    margin-bottom: 5px;
+}
+
+.boot-cursor {
+    display: flex;
+    align-items: center;
+}
+
+.boot-command {
+    margin-left: 5px;
+}
+
+.cursor {
+    animation: blink 1s infinite;
+    margin-left: 2px;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
