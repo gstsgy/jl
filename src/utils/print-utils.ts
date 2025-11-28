@@ -140,10 +140,30 @@ async function  exportResume(
 
             pdf.addImage(imgData, 'JPEG', 0, 0, 210, 297);
         }
-        pages.forEach(page => {
 
-        });
-        pdf.save('古月的简历.pdf');
+        // 移动端兼容的保存方式
+        if (/Android|iPhone|iPad/i.test(navigator.userAgent)) {
+            // 移动端：使用Blob和下载链接
+            const pdfBlob = pdf.output('blob');
+            const url = URL.createObjectURL(pdfBlob);
+
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = '古月的简历.pdf';
+            link.style.display = 'none';
+
+            document.body.appendChild(link);
+            link.click();
+
+            // 清理
+            setTimeout(() => {
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+            }, 1000);
+        } else {
+            // 桌面端：直接保存
+            pdf.save('古月的简历.pdf');
+        }
         printWindow.close();
     }
 }
