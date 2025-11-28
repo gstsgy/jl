@@ -21,6 +21,7 @@ export const APP_CONFIG = {
         PAGE1: 'page1',
         PAGE2: 'page2',
         PRINT_BTN: 'print-btn',
+        EXPORT_BTN: 'export-btn',
         SKIP_BTN: 'skip-btn',
         RESUME_PAGES: 'resume-pages',
         CONTROLS: 'controls',

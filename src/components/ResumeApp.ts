@@ -1,5 +1,5 @@
 import { APP_CONFIG } from '../config/constants';
-import { printResume } from '../utils/print-utils';
+import exportResume, {printResume} from '../utils/print-utils';
 import { renderHeader, renderLeftColumn, renderRightColumn, renderRightColumn2 } from '../utils/render-utils';
 import { leftColumnData, rightColumnData } from '../data/resume-data';
 
@@ -13,6 +13,7 @@ interface ResumeAppOptions {
 export class ResumeApp {
     private resumePages: HTMLElement;
     private printBtn: HTMLElement;
+    private exportBtn: HTMLElement;
     private controls: HTMLElement;
     private isTypingComplete = false;
     private pageElements: HTMLElement[] = [];
@@ -25,14 +26,16 @@ export class ResumeApp {
     constructor(options: ResumeAppOptions = {}) {
         const resumePagesEl = document.getElementById(APP_CONFIG.SELECTORS.RESUME_PAGES);
         const printBtnEl = document.getElementById(APP_CONFIG.SELECTORS.PRINT_BTN);
+        const exportBtn = document.getElementById(APP_CONFIG.SELECTORS.EXPORT_BTN);
         const controlsEl = document.getElementById(APP_CONFIG.SELECTORS.CONTROLS);
 
-        if (!resumePagesEl || !printBtnEl || !controlsEl) {
+        if (!resumePagesEl || !printBtnEl || !controlsEl||!exportBtn) {
             throw new Error('Required DOM elements not found');
         }
 
         this.resumePages = resumePagesEl;
         this.printBtn = printBtnEl;
+        this.exportBtn = exportBtn;
         this.controls = controlsEl;
         this.enableTypewriter = options.enableTypewriter ?? APP_CONFIG.TYPEWRITER.ENABLED;
 
@@ -228,6 +231,8 @@ export class ResumeApp {
      */
     private setupEventListeners(): void {
         this.printBtn.addEventListener('click', () => this.handlePrint());
+        this.exportBtn.addEventListener('click', () => this.exportPdf());
+
     }
 
     /**
@@ -239,6 +244,14 @@ export class ResumeApp {
         setTimeout(() => {
             const allContent = this.resumePages.innerHTML || this.pageContents.join('');
             printResume(allContent, '', '古月的简历');
+        }, APP_CONFIG.PAGE.PRINT_DELAY);
+    }
+
+    private exportPdf(): void {
+        this.ensureTypingComplete();
+        setTimeout(() => {
+            const allContent = this.resumePages.innerHTML || this.pageContents.join('');
+            exportResume(allContent, '', '古月的简历');
         }, APP_CONFIG.PAGE.PRINT_DELAY);
     }
 

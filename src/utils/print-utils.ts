@@ -1,3 +1,4 @@
+import  html2pdf from 'html2pdf.js';
 /**
  * 回退打印样式（当页面内无样式可复用时）
  */
@@ -85,4 +86,69 @@ export function printResume(
         window.print();
     }
 }
+
+/**
+ * 打开打印窗口并打印内容
+ * @param allContent 所有页面内容
+ * @param unused 未使用（保持兼容性）
+ * @param title 打印标题
+ */
+function exportResume(
+    allContent: string,
+    unused: string = '',
+    title: string = '古月的简历'
+): void {
+    const printWindow = window.open('', '_blank');
+    const styles = collectRuntimeStyles();
+
+    if (printWindow) {
+        // 移除光标元素
+        const cleanContent = allContent.replace(/class="typewriter-cursor"/g, '');
+
+        printWindow.document.write(`
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <title>${title}</title>
+            ${styles}
+          </head>
+          <body>
+            ${cleanContent}
+          </body>
+          </html>
+        `);
+
+        // 导出配置
+        const pdfConfig = {
+            margin: 10,
+            filename: `古月的简历.pdf`,
+            image: {
+                type: 'jpeg',
+                quality: 0.98
+            },
+            html2canvas: {
+                scale: 2,
+                useCORS: true,
+                allowTaint: true,
+                scrollY: 0,
+                width: 794, // A4宽度像素
+                height: 1123 // A4高度像素
+            },
+            jsPDF: {
+                unit: 'mm',
+                format: 'a4',
+                orientation: 'portrait'
+            }
+        };
+        // @ts-ignore
+        html2pdf()
+            .set(pdfConfig)
+            .from(printWindow.document.body)
+            .save().then(res=>{
+            printWindow.close();
+        })
+    }
+}
+
+export default exportResume
 

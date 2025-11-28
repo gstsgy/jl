@@ -530,6 +530,14 @@ button:hover {
     background: #059669;
 }
 
+.export-btn {
+    background: var(--accent-color, #dc2626); /* 红色系，与PDF图标呼应 */
+}
+
+.export-btn:hover {
+    background: #b91c1c; /* 更深一点的红色 */
+}
+
 .page-indicator {
     position: absolute;
     bottom: 20px;
