@@ -1,4 +1,5 @@
-import  html2pdf from 'html2pdf.js';
+import jsPDF from "jspdf";
+import html2canvas from 'html2canvas';
 /**
  * 回退打印样式（当页面内无样式可复用时）
  */
@@ -93,11 +94,11 @@ export function printResume(
  * @param unused 未使用（保持兼容性）
  * @param title 打印标题
  */
-function exportResume(
+async function  exportResume(
     allContent: string,
     unused: string = '',
     title: string = '古月的简历'
-): void {
+) {
     const printWindow = window.open('', '_blank');
     const styles = collectRuntimeStyles();
 
@@ -117,36 +118,33 @@ function exportResume(
           </body>
           </html>
         `);
-
+        const pages = document.querySelectorAll('.resume-page');
+        const pdf = new jsPDF('p', 'mm', 'a4');
         // 导出配置
-        const pdfConfig = {
-            margin: 10,
-            filename: `古月的简历.pdf`,
-            image: {
-                type: 'jpeg',
-                quality: 0.98
-            },
-            html2canvas: {
-                scale: 2,
+
+        for (let i = 0; i < pages.length; i++) {
+            const page = pages[i] as HTMLElement;
+            const canvas = await html2canvas(page, {
                 useCORS: true,
                 allowTaint: true,
-                scrollY: 0,
-                width: 794, // A4宽度像素
-                height: 1123 // A4高度像素
-            },
-            jsPDF: {
-                unit: 'mm',
-                format: 'a4',
-                orientation: 'portrait'
+                backgroundColor:null,
+                scale:2
+            });
+
+            const imgData = canvas.toDataURL('image/jpeg', 1);
+
+            // 添加新页面（第一页除外）
+            if (i > 0) {
+                pdf.addPage();
             }
-        };
-        // @ts-ignore
-        html2pdf()
-            .set(pdfConfig)
-            .from(printWindow.document.body)
-            .save().then(res=>{
-            printWindow.close();
-        })
+
+            pdf.addImage(imgData, 'JPEG', 0, 0, 210, 297);
+        }
+        pages.forEach(page => {
+
+        });
+        pdf.save('古月的简历.pdf');
+        printWindow.close();
     }
 }
 
